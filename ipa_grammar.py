@@ -9,9 +9,6 @@ def load_grammar(filename='ipa.lark'):
     with open(filename, mode='r') as f:
         return Lark(f.read(), start='transcription')
 
-def make_dot(sentence, parser, filename='ipa.gv'):
-    tree.pydot__tree_to_dot(parser.parse(sentence), filename)
-
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(
@@ -41,6 +38,6 @@ if __name__ == '__main__':
         sentence = f.read()
         try:
             print(parser.parse(sentence).pretty())
-            make_dot(sentence, parser, filename=args.output)
+            tree.pydot__tree_to_dot(parser.parse(sentence), args.output)
         except Exception as e:
             print(e)
