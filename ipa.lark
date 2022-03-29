@@ -1,0 +1,35 @@
+// IPA transcription
+transcription: phonetic | phonemic | phonemes
+
+phonetic: "[" ([stress] phonemes)+ "]"
+phonemic: "/" ([stress] phonemes)+ "/"
+phonemes: (phoneme | linked | affricate)+
+
+// phoneme
+affricate: c [cfeatures] " ͡" c [cfeatures] | c [cfeatures] " ͜" c [cfeatures]
+linked: phoneme "‿" phoneme
+phoneme: c [cfeatures] | v [vfeatures] [length]
+
+// non-combining markers
+stress: "ˈ" | "ˌ" | "."
+length: "ː" | "ˑ" | " ̆"
+
+// consonant features
+cfeatures: cfeature+
+cfeature: " ̥" | " ̬" | "ʰ" | " ̩" | " ̼" | "ʷ" | "ʲ" | "ˠ" | "ˤ" | " ̴" | " ̪" | " ̺" | " ̻" | "ⁿ" | "ˡ" | "̚" | "ˢ" | xfeature
+
+// vowel features
+vfeatures: vfeature+
+vfeature: " ̹" | " ̜" | " ̟" | " ̠" | " ̈" | " ̽" | " ̯" | " ˞" | " ̝" | " ̞" | " ̘" | " ̙" | xfeature
+
+xfeature: " ̤" | " ̰"
+
+// consonants
+c: "p" | "b" | "t" | "d" | "ʈ" | "ɖ" | "c" | "ɟ" | "k" | "ɡ" | "q" | "ɢ" | "ʔ" | "m" | "ɱ" | "n" | "ɳ" | "ɲ" | "ŋ" | "ɴ" | "ʙ" | "r" | "ʀ" | "ⱱ" | "ɾ" | "ɽ" | "ɸ" | "β" | "f" | "v" | "θ" | "ð" | "s" | "z" | "ʃ" | "ʒ" | "ʂ" | "ʐ" | "ç" | "ʝ" | "x" | "ɣ" | "χ" | "ʁ" | "ħ" | "ʕ" | "h" | "ɦ" | "ɬ" | "ɮ" | "ʋ" | "ɹ" | "ɻ" | "j" | "ç" | "ɰ" | "l" | "ɭ" | "ʎ" | "ʟ" | "ʘ" | "ɓ" | "p" | "ʼ" | "ǀ" | "ɗ" | "t" | "ʼ" | "!" | "ʄ" | "k" | "ʼ" | "ǂ" | "ɠ" | "s" | "ʼ" | "ǁ" | "ʛ" | "ʼ" | "ʍ" | "w" | "ɥ" | "ʜ" | "ʢ" | "ʡ" | "ɕ" | "ʑ" | "ˀ" | "ɺ" | "ɧ"
+
+// vowels
+v: "i" | "y" | "ɨ" | "ʉ" | "ɯ" | "u" | "ɪ" | "ø" | "ʊ" | "e" | "ɛ" | "ɘ" | "ɵ" | "ɤ" | "o" | "ə" | "ʏ" | "œ" | "ɜ" | "ɞ" | "ʌ" | "ɔ" | "æ" | "ɐ" | "a" | "ɶ" | "ɑ" | "ɒ"
+
+// Disregard spaces in text
+%import common.WS
+%ignore WS
