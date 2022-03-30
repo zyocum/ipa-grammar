@@ -27,7 +27,7 @@ To use the virtual environment in the Jupyter notebook, run:
 
 ```zsh
 (ipa) $ ipython kernel install --user --name=ipa
-(ipa) $ jupyter notebook ipa_grammar.py
+(ipa) $ jupyter notebook ipa_grammar.ipynb
 ```
 
 Then, choose the kernel with the name of the virtual environment:
