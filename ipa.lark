@@ -7,7 +7,7 @@ phonemes: (phoneme | linked | affricate)+
 
 // phoneme
 affricate: c [cfeatures] " ͡" c [cfeatures] | c [cfeatures] " ͜" c [cfeatures]
-linked: phoneme "‿" phoneme
+linked: phoneme " ‿" phoneme
 phoneme: c [cfeatures] | v [vfeatures] [length]
 
 // non-combining markers
@@ -16,7 +16,7 @@ length: "ː" | "ˑ" | " ̆"
 
 // consonant features
 cfeatures: cfeature+
-cfeature: " ̥" | " ̬" | "ʰ" | " ̩" | " ̼" | "ʷ" | "ʲ" | "ˠ" | "ˤ" | " ̴" | " ̪" | " ̺" | " ̻" | "ⁿ" | "ˡ" | "̚" | "ˢ" | xfeature
+cfeature: " ̥" | " ̬" | "ʰ" | " ̩" | " ̼" | "ʷ" | "ʲ" | "ˠ" | "ˤ" | " ̴" | " ̪" | " ̺" | " ̻" | "ⁿ" | "ˡ" | " ̚" | "ˢ" | xfeature
 
 // vowel features
 vfeatures: vfeature+
