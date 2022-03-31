@@ -264,7 +264,7 @@ Expected one of:
 To run the tests:
 
 ```zsh
-(ipa) $ $ ./tests/run.zsh 
+(ipa) $ ./tests/run.zsh 
 /mǎi mài mâi mái/ PASS
 /ˈkatən/ PASS
 [ˈkhætn̩] PASS
