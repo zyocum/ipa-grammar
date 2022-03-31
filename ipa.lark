@@ -1,34 +1,232 @@
 // IPA transcription
-transcription: phonetic | phonemic | phonemes
+transcription: syllables
+  | group
+  | phonetic
+  | phonemic
 
-phonetic: "[" ([stress] phonemes)+ "]"
-phonemic: "/" ([stress] phonemes)+ "/"
-phonemes: (phoneme | linked | affricate)+
+// bracketed types
+phonetic: "[" (syllables | group) "]"
+phonemic: "/" (syllables | group) "/"
 
-// phoneme
-affricate: c [cfeatures] " ͡" c [cfeatures] | c [cfeatures] " ͜" c [cfeatures]
-linked: phoneme " ‿" phoneme
-phoneme: c [cfeatures] | v [vfeatures] [length]
+// segmental sequences
+group: major+ | minor+
+major: minor+ "‖"
+minor: syllables+ "|" | syllables+
+syllables: [tonestep] [stress] syllable ([tonestep] [suprasegmental] syllable)*
+segments: [stress] segment+ (suprasegmental segment+)*
 
-// non-combining markers
-stress: "ˈ" | "ˌ" | "."
-length: "ː" | "ˑ" | " ̆"
+// syllables
+
+syllable: onset rime righttonecontour | lefttonecontour onset rime | onset tonalrime | onset rime
+
+tonalrime: tonalnucleus coda
+tonalnucleus: (vowel* (tonalvowel | syllabic tonemark [length])+ vowel*)+
+
+rime: nucleus coda
+nucleus: (vowel+ | (syllabic [length])+)+
+coda: consonant*
+onset: consonant*
+
+// segmentals
+segment: (consonant | vowel | syllabic [tonemark] [length] | tonalvowel)+
+
+tonalvowel: tonemarkedv | tonaldipthong
+tonaldipthong: tonemarkedv ("\u035c" | "\u0361") tonemarkedv
+  | tonemarkedv ("\u035c" | "\u0361") v [vfeatures] [length]
+  | v [vfeatures] [length] ("\u035c" | "\u0361") tonemarkedv
+tonemarkedv: v [vfeatures] tonemark [vfeatures] [length]
+vowel: v [vfeatures] [length] | dipthong
+
+consonant: c [cfeatures] | affricate
+dipthong: v [vfeatures] [length] ("\u035c" | "\u0361") v [vfeatures] [length]
+affricate: c [cfeatures] ("\u035c" | "\u0361") c [cfeatures]
+
+
+// suprasegmentals
+suprasegmental: stress | break | link
+stress: "ˈ" | "ˌ"
+break: "."
+link: "‿"
+
+// length modifiers
+length: "ː" | "ˑ" | "\u0306"
 
 // consonant features
+// the explicit permutations of (" ̩" | " ̍") with other features is annoying
+// but, it's intended to separate syllabic consonants from nonsyllabic ones
+syllabic: c ("\u0329" | "\u030D") nonsyllabic* vfeatures*
+  | c nonsyllabic* ("\u0329" | "\u030D") vfeatures*
+  | c nonsyllabic* vfeatures* ("\u0329" | "\u030D")
+  | c ("\u0329" | "\u030D") vfeatures* nonsyllabic*
+  | c vfeatures* ("\u0329" | "\u030D") nonsyllabic*
+  | c vfeatures* nonsyllabic*  ("\u0329" | "\u030D")
 cfeatures: cfeature+
-cfeature: " ̥" | " ̬" | "ʰ" | " ̩" | " ̼" | "ʷ" | "ʲ" | "ˠ" | "ˤ" | " ̴" | " ̪" | " ̺" | " ̻" | "ⁿ" | "ˡ" | " ̚" | "ˢ" | xfeature
+cfeature: nonsyllabic | "\u0329" | "\u030D"
+nonsyllabic: "ʰ"
+  | "ʲ"
+  | "ʷ"
+  | "ˠ"
+  | "ˡ"
+  | "ˢ"
+  | "ˤ"
+  | "\u031a"
+  | "\u0325"
+  | "\u0329"
+  | "\u032a"
+  | "\u032c"
+  | "\u0334"
+  | "\u033a"
+  | "\u033b"
+  | "\u033c"
+  | "\u207f"
+  | xfeature
 
 // vowel features
 vfeatures: vfeature+
-vfeature: " ̹" | " ̜" | " ̟" | " ̠" | " ̈" | " ̽" | " ̯" | " ˞" | " ̝" | " ̞" | " ̘" | " ̙" | xfeature
+vfeature: "˞"
+  | "\u02d4"
+  | "\u02d5"
+  | "\u0303"
+  | "\u0308"
+  | "\u0318"
+  | "\u0319"
+  | "\u031c"
+  | "\u031d"
+  | "\u031e"
+  | "\u031f"
+  | "\u0320"
+  | "\u032f"
+  | "\u0339"
+  | "\u033d"
+  | xfeature
 
-xfeature: " ̤" | " ̰"
+// tones
+tonemark: "\u0300"
+  | "\u0301"
+  | "\u0302"
+  | "\u030b"
+  | "\u030c"
+  | "\u030f"
+  | "\u1dc4"
+  | "\u0304"
+tonestep: "↓" | "↑"
+lefttonecontour: ("꜒" | "꜓" | "꜔" | "꜕" | "꜖")+
+righttonecontour: ("˥" | "˦" | "˧" | "˨" | "˩")+ | "↗" | "↘"
+
+xfeature: "\u0324" | "\u0330"
 
 // consonants
-c: "p" | "b" | "t" | "d" | "ʈ" | "ɖ" | "c" | "ɟ" | "k" | "ɡ" | "q" | "ɢ" | "ʔ" | "m" | "ɱ" | "n" | "ɳ" | "ɲ" | "ŋ" | "ɴ" | "ʙ" | "r" | "ʀ" | "ⱱ" | "ɾ" | "ɽ" | "ɸ" | "β" | "f" | "v" | "θ" | "ð" | "s" | "z" | "ʃ" | "ʒ" | "ʂ" | "ʐ" | "ç" | "ʝ" | "x" | "ɣ" | "χ" | "ʁ" | "ħ" | "ʕ" | "h" | "ɦ" | "ɬ" | "ɮ" | "ʋ" | "ɹ" | "ɻ" | "j" | "ç" | "ɰ" | "l" | "ɭ" | "ʎ" | "ʟ" | "ʘ" | "ɓ" | "p" | "ʼ" | "ǀ" | "ɗ" | "t" | "ʼ" | "!" | "ʄ" | "k" | "ʼ" | "ǂ" | "ɠ" | "s" | "ʼ" | "ǁ" | "ʛ" | "ʼ" | "ʍ" | "w" | "ɥ" | "ʜ" | "ʢ" | "ʡ" | "ɕ" | "ʑ" | "ˀ" | "ɺ" | "ɧ"
+c: "!"
+  | "b"
+  | "c"
+  | "ç"
+  | "d"
+  | "f"
+  | "h"
+  | "j"
+  | "k"
+  | "l"
+  | "m"
+  | "n"
+  | "p"
+  | "q"
+  | "r"
+  | "s"
+  | "t"
+  | "v"
+  | "w"
+  | "x"
+  | "z"
+  | "ð"
+  | "ħ"
+  | "ŋ"
+  | "ǀ"
+  | "ǁ"
+  | "ǂ"
+  | "ɓ"
+  | "ɕ"
+  | "ɖ"
+  | "ɗ"
+  | "ɟ"
+  | "ɠ"
+  | "ɡ"
+  | "ɢ"
+  | "ɣ"
+  | "ɥ"
+  | "ɦ"
+  | "ɧ"
+  | "ɬ"
+  | "ɭ"
+  | "ɮ"
+  | "ɰ"
+  | "ɱ"
+  | "ɲ"
+  | "ɳ"
+  | "ɴ"
+  | "ɸ"
+  | "ɹ"
+  | "ɺ"
+  | "ɻ"
+  | "ɽ"
+  | "ɾ"
+  | "ʀ"
+  | "ʁ"
+  | "ʂ"
+  | "ʃ"
+  | "ʄ"
+  | "ʈ"
+  | "ʋ"
+  | "ʍ"
+  | "ʎ"
+  | "ʐ"
+  | "ʑ"
+  | "ʒ"
+  | "ʔ"
+  | "ʕ"
+  | "ʘ"
+  | "ʙ"
+  | "ʛ"
+  | "ʜ"
+  | "ʝ"
+  | "ʟ"
+  | "ʡ"
+  | "ʢ"
+  | "ʼ"
+  | "ˀ"
+  | "β"
+  | "θ"
+  | "χ"
+  | "ⱱ"
 
 // vowels
-v: "i" | "y" | "ɨ" | "ʉ" | "ɯ" | "u" | "ɪ" | "ø" | "ʊ" | "e" | "ɛ" | "ɘ" | "ɵ" | "ɤ" | "o" | "ə" | "ʏ" | "œ" | "ɜ" | "ɞ" | "ʌ" | "ɔ" | "æ" | "ɐ" | "a" | "ɶ" | "ɑ" | "ɒ"
+v: "a"
+  | "æ"
+  | "e"
+  | "i"
+  | "o"
+  | "ø"
+  | "u"
+  | "y"
+  | "œ"
+  | "ɐ"
+  | "ɑ"
+  | "ɒ"
+  | "ɔ"
+  | "ɘ"
+  | "ə"
+  | "ɛ"
+  | "ɜ"
+  | "ɞ"
+  | "ɤ"
+  | "ɨ"
+  | "ɪ"
+  | "ɯ"
+  | "ɵ"
+  | "ɶ"
+  | "ʉ"
+  | "ʊ"
+  | "ʌ"
+  | "ʏ"
 
 // Disregard spaces in text
 %import common.WS
