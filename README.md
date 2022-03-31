@@ -286,7 +286,7 @@ a˩˥˥˩˦˥˩˨˧˦˧ PASS
 ( while read l; do; echo -n "$l " | tee /dev/stderr | ( ./ipa_grammar.py - > )  5.86s user 0.20s system 99% cpu 6.113 total
 ```
 
-## Know Issues
+## Known Issues
 
 The grammar is not comprehensive, and the current parsing of syllable structures isn't going to work in all cases.  For example, there is no disambiguation of consonant clusters that could span syllable boundaries, nor is there disambiguation of adjacent vowels that might belong to different syllables.
 
