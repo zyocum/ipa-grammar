@@ -88,6 +88,177 @@ This will generate a graphical parse tree in the file `cat.png`:
 
 ![Graphical parse tree](cat.png "parse tree of the English transcription of the word cat")
 
+If you try to parse some text that the grammar does not license as a valid transcription, you'll get an error like this:
+
+```zsh
+(ipa) $ echo '/ˈɡɹæ.mə(ɹ)/' | ./ipa_grammar.py -
+No terminal matches '(' in the current parser context, at line 1 col 9
+
+/ˈɡɹæ.mə(ɹ)/
+        ^
+Expected one of: 
+	* ̝
+	* ɹ
+	* Ɑ
+	* ɢ
+	* U
+	* __ANON_0
+	* Χ
+	* ʙ
+	* Ʀ
+	* ɳ
+	* ʜ
+	* __ANON_13
+	* ˀ
+	* E
+	* DOT
+	* R
+	* ɤ
+	* ˑ
+	* ʢ
+	* ̯
+	* __ANON_5
+	* Ʉ
+	* Ɗ
+	* Ʃ
+	* Y
+	* J
+	* C
+	* ʼ
+	* ̃
+	* P
+	* ̌
+	* ː
+	* ͡
+	* Ɨ
+	* W
+	* ǀ
+	* Œ
+	* ɰ
+	* __ANON_11
+	* ‿
+	* ʐ
+	* ᷄
+	* BANG
+	* ɕ
+	* Ɣ
+	* ⱱ
+	* Ɛ
+	* Ɱ
+	* Ɖ
+	* ́
+	* ɾ
+	* Ø
+	* Ħ
+	* __ANON_17
+	* I
+	* Ʈ
+	* Ɵ
+	* Ɓ
+	* __ANON_12
+	* Ɜ
+	* N
+	* Ɠ
+	* ̠
+	* Ç
+	* Ɯ
+	* ʁ
+	* __ANON_4
+	* Ɐ
+	* L
+	* ˈ
+	* Ɔ
+	* ɴ
+	* K
+	* Ʋ
+	* Ɪ
+	* Ɲ
+	* Q
+	* Ɥ
+	* __ANON_14
+	* ̽
+	* __ANON_1
+	* S
+	* __ANON_10
+	* __ANON_15
+	* Æ
+	* ɟ
+	* SLASH
+	* VBAR
+	* Ʊ
+	* M
+	* ̀
+	* ˌ
+	* __ANON_9
+	* Ə
+	* Ŋ
+	* ̘
+	* ɘ
+	* __ANON_3
+	* B
+	* Ʌ
+	* ʎ
+	* ɺ
+	* X
+	* ǂ
+	* ǁ
+	* ̹
+	* ɻ
+	* D
+	* ʘ
+	* __ANON_8
+	* ʍ
+	* Θ
+	* __ANON_7
+	* Ɽ
+	* ͜
+	* ʄ
+	* ʛ
+	* ʔ
+	* Ʝ
+	* ɞ
+	* ̞
+	* Ɦ
+	* ̙
+	* ̆
+	* ɧ
+	* ɸ
+	* Z
+	* Ʒ
+	* A
+	* __ANON_16
+	* ʏ
+	* Ɒ
+	* __ANON_2
+	* ̟
+	* ̋
+	* ̰
+	* ʕ
+	* ̂
+	* Ð
+	* ʡ
+	* ʑ
+	* H
+	* Ɡ
+	* ̄
+	* ɮ
+	* Β
+	* T
+	* Ʂ
+	* ɭ
+	* O
+	* ̜
+	* F
+	* V
+	* ʟ
+	* ̈
+	* ɶ
+	* Ɬ
+	* __ANON_6
+	* ̤
+	* ̏
+```
+
 ## Tests
 
 To run the tests:
