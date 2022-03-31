@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
-from pathlib import Path
+import sys
 from contextlib import closing
 from lark import Lark
 from lark import tree
+from pathlib import Path
+from unicodedata import normalize
 
-def load_grammar(filename='ipa.lark'):
+def load_grammar(filename):
     with open(filename, mode='r') as f:
         return Lark(f.read(), start='transcription')
 
@@ -22,7 +24,7 @@ if __name__ == '__main__':
     )
     parser.add_argument(
         '-o', '--output',
-        default='ipa.gv',
+        default=None,
         type=Path,
         help='path to file where graphviz graph will be written',
     )
@@ -35,9 +37,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
     parser = load_grammar(args.grammar)
     with closing(args.input) as f:
-        sentence = f.read()
+        sentence = normalize('NFD', f.read())
         try:
             print(parser.parse(sentence).pretty())
-            tree.pydot__tree_to_dot(parser.parse(sentence), args.output)
+            if args.output:
+                tree.pydot__tree_to_dot(parser.parse(sentence), args.output)
         except Exception as e:
-            print(e)
+            print(e, file=sys.stderr)
+            sys.exit(1)
