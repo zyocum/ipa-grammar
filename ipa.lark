@@ -1,68 +1,71 @@
 // IPA transcription
 transcription: syllables
   | group
+  | segments
   | phonetic
   | phonemic
 
 // bracketed types
-phonetic: "[" (syllables | group) "]"
-phonemic: "/" (syllables | group) "/"
+phonetic: "[" (syllables | group | segments) "]"
+phonemic: "/" (syllables | group | segments) "/"
 
 // segmental sequences
 group: major+ | minor+
 major: minor+ "‖"
 minor: syllables+ "|" | syllables+
-syllables: [tonestep] [stress] syllable ([tonestep] [suprasegmental] syllable)*
-segments: [stress] segment+ (suprasegmental segment+)*
+syllables: [TONESTEP] [STRESS] syllable ([TONESTEP] [suprasegmental] syllable)*
+segments: [STRESS] segment+ (suprasegmental segment+)*
 
 // syllables
 
-syllable: onset rime righttonecontour | lefttonecontour onset rime | onset tonalrime | onset rime
+syllable: onset rime RIGHTTONECONTOUR | LEFTTONECONTOUR onset rime | onset tonalrime | onset rime
 
 tonalrime: tonalnucleus coda
-tonalnucleus: (vowel* (tonalvowel | syllabic tonemark [length])+ vowel*)+
+tonalnucleus: (vowel* (tonalvowel | syllabic TONEMARK [LENGTH])+ vowel*)+
 
 rime: nucleus coda
-nucleus: (vowel+ | (syllabic [length])+)+
+nucleus: (vowel+ | (syllabic [LENGTH])+)+
 coda: consonant*
 onset: consonant*
 
 // segmentals
-segment: (consonant | vowel | syllabic [tonemark] [length] | tonalvowel)+
+segment: (consonant | vowel | syllabic [TONEMARK] [LENGTH] | tonalvowel)+
 
 tonalvowel: tonemarkedv | tonaldipthong
-tonaldipthong: tonemarkedv ("\u035c" | "\u0361") tonemarkedv
-  | tonemarkedv ("\u035c" | "\u0361") v [vfeatures] [length]
-  | v [vfeatures] [length] ("\u035c" | "\u0361") tonemarkedv
-tonemarkedv: v [vfeatures] tonemark [vfeatures] [length]
-vowel: v [vfeatures] [length] | dipthong
+tonaldipthong: tonemarkedv DOUBLEBREVE tonemarkedv
+  | tonemarkedv DOUBLEBREVE V [vfeatures] [LENGTH]
+  | V [vfeatures] [LENGTH] DOUBLEBREVE tonemarkedv
+tonemarkedv: V [vfeatures] TONEMARK [vfeatures] [LENGTH]
+vowel: V [vfeatures] [LENGTH] | dipthong
 
-consonant: c [cfeatures] | affricate
-dipthong: v [vfeatures] [length] ("\u035c" | "\u0361") v [vfeatures] [length]
-affricate: c [cfeatures] ("\u035c" | "\u0361") c [cfeatures]
+consonant: C [cfeatures] | affricate
+dipthong: V [vfeatures] [LENGTH] DOUBLEBREVE V [vfeatures] [LENGTH]
+affricate: C [cfeatures] DOUBLEBREVE C [cfeatures]
 
+DOUBLEBREVE: ("\u035c" | "\u0361")
 
 // suprasegmentals
-suprasegmental: stress | break | link
-stress: "ˈ" | "ˌ"
-break: "."
-link: "‿"
+suprasegmental: STRESS | BREAK | LINK
+STRESS: "ˈ" | "ˌ"
+BREAK: "."
+LINK: "‿"
 
 // length modifiers
-length: "ː" | "ˑ" | "\u0306"
+LENGTH: "ː" | "ˑ" | "\u0306"
 
 // consonant features
 // the explicit permutations of (" ̩" | " ̍") with other features is annoying
 // but, it's intended to separate syllabic consonants from nonsyllabic ones
-syllabic: c ("\u0329" | "\u030D") nonsyllabic* vfeatures*
-  | c nonsyllabic* ("\u0329" | "\u030D") vfeatures*
-  | c nonsyllabic* vfeatures* ("\u0329" | "\u030D")
-  | c ("\u0329" | "\u030D") vfeatures* nonsyllabic*
-  | c vfeatures* ("\u0329" | "\u030D") nonsyllabic*
-  | c vfeatures* nonsyllabic*  ("\u0329" | "\u030D")
-cfeatures: cfeature+
-cfeature: nonsyllabic | "\u0329" | "\u030D"
-nonsyllabic: "ʰ"
+syllabic: C SYLLABICMARK NONSYLLABIC* vfeatures*
+  | C NONSYLLABIC* SYLLABICMARK vfeatures*
+  | C NONSYLLABIC* vfeatures* SYLLABICMARK
+  | C SYLLABICMARK vfeatures* NONSYLLABIC*
+  | C vfeatures* SYLLABICMARK NONSYLLABIC*
+  | C vfeatures* NONSYLLABIC*  SYLLABICMARK
+cfeatures: (cfeature | XFEATURE)+
+cfeature: NONSYLLABIC | SYLLABICMARK
+SYLLABICMARK: "\u0329" | "\u030D"
+NONSYLLABIC: "ʰ"
   | "ʲ"
   | "ʷ"
   | "ˠ"
@@ -79,11 +82,11 @@ nonsyllabic: "ʰ"
   | "\u033b"
   | "\u033c"
   | "\u207f"
-  | xfeature
+  | XFEATURE
 
 // vowel features
-vfeatures: vfeature+
-vfeature: "˞"
+vfeatures: (VFEATURE | XFEATURE)+
+VFEATURE: "˞"
   | "\u02d4"
   | "\u02d5"
   | "\u0303"
@@ -98,10 +101,9 @@ vfeature: "˞"
   | "\u032f"
   | "\u0339"
   | "\u033d"
-  | xfeature
 
 // tones
-tonemark: "\u0300"
+TONEMARK: "\u0300"
   | "\u0301"
   | "\u0302"
   | "\u030b"
@@ -109,14 +111,14 @@ tonemark: "\u0300"
   | "\u030f"
   | "\u1dc4"
   | "\u0304"
-tonestep: "↓" | "↑"
-lefttonecontour: ("꜒" | "꜓" | "꜔" | "꜕" | "꜖")+
-righttonecontour: ("˥" | "˦" | "˧" | "˨" | "˩")+ | "↗" | "↘"
+TONESTEP: "↓" | "↑"
+LEFTTONECONTOUR: ("꜒" | "꜓" | "꜔" | "꜕" | "꜖")+
+RIGHTTONECONTOUR: ("˥" | "˦" | "˧" | "˨" | "˩")+ | "↗" | "↘"
 
-xfeature: "\u0324" | "\u0330"
+XFEATURE: "\u0324" | "\u0330"
 
 // consonants
-c: "!"
+C: "!"
   | "b"
   | "c"
   | "ç"
@@ -199,7 +201,7 @@ c: "!"
   | "ⱱ"
 
 // vowels
-v: "a"
+V: "a"
   | "æ"
   | "e"
   | "i"

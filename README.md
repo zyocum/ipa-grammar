@@ -58,6 +58,7 @@ For example:
 ```zsh
 (ipa) $ echo '[kʰæt]' > cat-transcription.txt
 (ipa) $ ./ipa_grammar.py cat-transcription.txt -g ipa.lark -o cat.gv
+$ ./ipa_grammar.py cat-transcription.txt -g ipa.lark -o cat.gv
 transcription
   phonetic
     syllables
@@ -66,19 +67,18 @@ transcription
       syllable
         onset
           consonant
-            c
+            k
             cfeatures
-              cfeature
-                nonsyllabic
+              cfeature	ʰ
         rime
           nucleus
             vowel
-              v
+              æ
               None
               None
           coda
             consonant
-              c
+              t
               None
 
 (ipa) $ dot -Tpng -o cat.png cat.gv
@@ -97,166 +97,23 @@ No terminal matches '(' in the current parser context, at line 1 col 9
 /ˈɡɹæ.mə(ɹ)/
         ^
 Expected one of: 
-	* ̝
-	* ɹ
-	* Ɑ
-	* ɢ
-	* U
-	* __ANON_0
-	* Χ
-	* ʙ
-	* Ʀ
-	* ɳ
-	* ʜ
-	* __ANON_13
-	* ˀ
-	* E
-	* DOT
-	* R
-	* ɤ
-	* ˑ
-	* ʢ
-	* ̯
-	* __ANON_5
-	* Ʉ
-	* Ɗ
-	* Ʃ
-	* Y
-	* J
-	* C
-	* ʼ
-	* ̃
-	* P
-	* ̌
-	* ː
-	* ͡
-	* Ɨ
-	* W
-	* ǀ
-	* Œ
-	* ɰ
-	* __ANON_11
-	* ‿
-	* ʐ
-	* ᷄
-	* BANG
-	* ɕ
-	* Ɣ
-	* ⱱ
-	* Ɛ
-	* Ɱ
-	* Ɖ
-	* ́
-	* ɾ
-	* Ø
-	* Ħ
-	* __ANON_17
-	* I
-	* Ʈ
-	* Ɵ
-	* Ɓ
-	* __ANON_12
-	* Ɜ
-	* N
-	* Ɠ
-	* ̠
-	* Ç
-	* Ɯ
-	* ʁ
-	* __ANON_4
-	* Ɐ
-	* L
-	* ˈ
-	* Ɔ
-	* ɴ
-	* K
-	* Ʋ
-	* Ɪ
-	* Ɲ
-	* Q
-	* Ɥ
-	* __ANON_14
-	* ̽
-	* __ANON_1
-	* S
-	* __ANON_10
-	* __ANON_15
-	* Æ
-	* ɟ
-	* SLASH
-	* VBAR
-	* Ʊ
-	* M
-	* ̀
-	* ˌ
-	* __ANON_9
-	* Ə
-	* Ŋ
-	* ̘
-	* ɘ
-	* __ANON_3
-	* B
-	* Ʌ
-	* ʎ
-	* ɺ
-	* X
-	* ǂ
-	* ǁ
-	* ̹
-	* ɻ
-	* D
-	* ʘ
-	* __ANON_8
-	* ʍ
-	* Θ
-	* __ANON_7
-	* Ɽ
-	* ͜
-	* ʄ
-	* ʛ
-	* ʔ
-	* Ʝ
-	* ɞ
-	* ̞
-	* Ɦ
-	* ̙
-	* ̆
-	* ɧ
-	* ɸ
-	* Z
-	* Ʒ
-	* A
-	* __ANON_16
-	* ʏ
-	* Ɒ
-	* __ANON_2
-	* ̟
-	* ̋
-	* ̰
-	* ʕ
-	* ̂
-	* Ð
-	* ʡ
-	* ʑ
-	* H
-	* Ɡ
-	* ̄
-	* ɮ
-	* Β
-	* T
-	* Ʂ
-	* ɭ
-	* O
-	* ̜
-	* F
+	* LEFTTONECONTOUR
 	* V
-	* ʟ
-	* ̈
-	* ɶ
-	* Ɬ
-	* __ANON_6
-	* ̤
-	* ̏
+	* STRESS
+	* RIGHTTONECONTOUR
+	* TONEMARK
+	* VBAR
+	* LINK
+	* VFEATURE
+	* XFEATURE
+	* SLASH
+	* BREAK
+	* __ANON_0
+	* LENGTH
+	* TONESTEP
+	* C
+	* DOUBLEBREVE
+
 ```
 
 ## Tests
@@ -283,7 +140,7 @@ mā PASS
 nu.jam.ɬ̩ PASS
 a˩˥˥˩˦˥˩˨˧˦˧ PASS
 [u ↑ˈvẽ.tu ˈnɔ.ɾtɯ ku.mɯˈso.ɐ.suˈpɾaɾ.kõˈmũi.tɐ ˩˧fu.ɾiɐ | mɐʃ ↑ˈku̯ɐ̃.tu.maiʃ.su˩˧pɾa.vɐ | maiz ↑u.viɐ↓ˈʒɐ̃.tɯ.si.ɐk.õʃ↓ˈɡa.va.suɐ ˧˩ka.pɐ | ɐˈtɛ ↑kiu ˈvẽ.tu ˈnɔɾ.tɯ ˧˩d̥z̥ʃtiu ǁ] PASS
-( while read l; do; echo -n "$l " | tee /dev/stderr | ( ./ipa_grammar.py - > )  5.86s user 0.20s system 99% cpu 6.113 total
+( while read l; do; echo -n "$l " | tee /dev/stderr | ( ./ipa_grammar.py - > )  5.20s user 0.58s system 94% cpu 6.122 total
 ```
 
 ## Known Issues
